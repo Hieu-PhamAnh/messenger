@@ -15,6 +15,8 @@ model User{
   email String @default("")
   userName String @unique
   password String
+  firstName String
+  lastName String
   messages Message[]
   User1Room Room[] @relation("User1Room")
   User2Room Room[] @relation("User2Room")

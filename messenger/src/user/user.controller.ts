@@ -8,6 +8,8 @@ export class UserController {
   @Post('test')
   test() {
     console.log('This is a test');
-    return { message: 'This is a test' };
+    const a: string = process.env.DATABASE_URL;
+    console.log(a);
+    return { message: a };
   }
 }
