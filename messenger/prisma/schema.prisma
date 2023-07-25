@@ -15,8 +15,8 @@ model User{
   email String @default("")
   userName String @unique
   password String
-  firstName String
-  lastName String
+  firstName String @default("")
+  lastName String @default("")
   messages Message[]
   User1Room Room[] @relation("User1Room")
   User2Room Room[] @relation("User2Room")
@@ -27,8 +27,8 @@ model Message{
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   context String
-  room Room @relation(fields: [roomId], references: [id])
-  sender User @relation(fields: [senderID], references: [id])
+  room Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  sender User @relation(fields: [senderID], references: [id], onDelete: Cascade)
   senderID Int
   roomId Int
 }
