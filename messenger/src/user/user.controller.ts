@@ -1,14 +1,14 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
-  ParseIntPipe,
   Patch,
   Post,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { EditUserDto } from './dto';
+import { EditUserDto, SearchDto } from './dto';
 import { CustomParseIntPipe } from 'src/CustomPipe/ParseIdPipe';
 
 @Controller('users')
@@ -22,6 +22,11 @@ export class UserController {
     return { message: a };
   }
 
+  @Get('search')
+  searchByUsername(@Body() dto: SearchDto) {
+    return this.userService.searchByUsername(dto);
+  }
+
   @Get(':id')
   getUser(@Param('id', CustomParseIntPipe) id: number) {
     return this.userService.getUser(id);
@@ -33,5 +38,10 @@ export class UserController {
     @Body() dto: EditUserDto,
   ) {
     return this.userService.editUser(id, dto);
+  }
+
+  @Delete(':id')
+  deleteUser(@Param('id', CustomParseIntPipe) id: number) {
+    return this.userService.deleteUser(id);
   }
 }

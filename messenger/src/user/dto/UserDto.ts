@@ -1,4 +1,4 @@
-import { Allow, IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class EditUserDto {
   @IsEmail()
@@ -15,4 +15,10 @@ export class EditUserDto {
   @IsNotEmpty()
   @IsString()
   lastName: string;
+}
+
+export class SearchDto {
+  @IsNotEmpty()
+  @IsString()
+  userName: string;
 }
