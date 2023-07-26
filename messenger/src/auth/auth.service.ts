@@ -5,14 +5,14 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { AuthDto } from './dto';
+import { AuthDto, CreateUserDto } from './dto';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 @Injectable()
 export class AuthService {
   constructor(private prisma: PrismaService) {}
 
-  async signUp(dto: AuthDto) {
+  async signUp(dto: CreateUserDto) {
     console.log(dto);
     try {
       const newUser = await this.prisma.user.create({
