@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { RoomDto } from './dto';
 
 @Injectable()
 export class RoomService {
   constructor(private prisma: PrismaService) {}
+
   async createRoom(dto: RoomDto) {
     try {
       let newRoom = await this.findRoom(dto);
@@ -35,5 +36,18 @@ export class RoomService {
     });
     // console.log('Room:', room);
     return room;
+  }
+
+  async deleteRoom(id: number) {
+    try {
+      let room = await this.prisma.room.findFirst({ where: { id: id } });
+      if (!room) {
+        throw new NotFoundException('Room not found');
+      }
+      room = await this.prisma.room.delete({ where: { id: id } });
+      return { message: 'delete success', room: room };
+    } catch (error) {
+      throw error;
+    }
   }
 }
