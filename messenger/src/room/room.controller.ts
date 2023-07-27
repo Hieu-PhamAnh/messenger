@@ -17,9 +17,8 @@ export class RoomController {
     return this.roomService.deleteRoom(id);
   }
 
-  @Get('test')
-  test(@Body() dto: RoomDto) {
-    console.log('type in controller:', typeof dto);
-    return dto;
+  @Get('allmessage/:id')
+  test(@Param('id', CustomParseIntPipe) id: number) {
+    return this.roomService.test(id);
   }
 }

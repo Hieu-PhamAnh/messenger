@@ -1,6 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { RoomDto } from './dto';
+import { async } from 'rxjs';
+import { RoomModul } from './room.module';
 
 @Injectable()
 export class RoomService {
@@ -46,6 +48,35 @@ export class RoomService {
       }
       room = await this.prisma.room.delete({ where: { id: id } });
       return { message: 'delete success', room: room };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async test(id: number) {
+    try {
+      const room = await this.prisma.room.findFirst({
+        where: { id: id },
+        include: {
+          User1: { select: { id: true, userName: true } },
+          User2: { select: { id: true, userName: true } },
+          messages: {
+            select: {
+              id: true,
+              message: true,
+              senderID: true,
+              createdAt: true,
+            },
+            orderBy: {
+              createdAt: 'asc',
+            },
+          },
+        },
+      });
+      delete room.user1;
+      delete room.user2;
+      // console.log(room.messages);
+      return room;
     } catch (error) {
       throw error;
     }
