@@ -26,7 +26,7 @@ model Message{
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  context String
+  message String
   room Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
   sender User @relation(fields: [senderID], references: [id], onDelete: Cascade)
   senderID Int

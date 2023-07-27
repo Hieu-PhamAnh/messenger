@@ -1,4 +1,5 @@
 import { IsNotEmpty, IsNumber } from 'class-validator';
+import { CustomParseIntRoom } from 'src/CustomPipe/ParseIdPipe';
 
 export class RoomDto {
   @IsNotEmpty()

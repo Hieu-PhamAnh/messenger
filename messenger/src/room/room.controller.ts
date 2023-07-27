@@ -19,6 +19,7 @@ export class RoomController {
 
   @Get('test')
   test(@Body() dto: RoomDto) {
-    return this.roomService.findRoom(dto);
+    console.log('type in controller:', typeof dto);
+    return dto;
   }
 }
