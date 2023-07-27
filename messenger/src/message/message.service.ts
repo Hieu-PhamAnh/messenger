@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateMessageDto, EditMessageDto } from './dto';
-import { async } from 'rxjs';
 
 @Injectable()
 export class MessageService {
