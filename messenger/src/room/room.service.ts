@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { RoomDto } from './dto';
+import { async } from 'rxjs';
 
 @Injectable()
 export class RoomService {
@@ -53,7 +54,9 @@ export class RoomService {
 
   async test(id: number) {
     try {
-      const room = await this.prisma.room.findFirst({
+      let room = await this.prisma.room.findFirst({ where: { id: id } });
+      if (!room) throw new NotFoundException('Room not found');
+      room = await this.prisma.room.findFirst({
         where: { id: id },
         include: {
           User1: { select: { id: true, userName: true } },
@@ -79,4 +82,13 @@ export class RoomService {
       throw error;
     }
   }
+
+  // async queryItem(arr: [number], id: number) {
+  //   let listItem = await this.prisma.item.findMany({
+  //     where: { id: { in: arr } },
+  //     include: {
+  //       likes: { select: { userId: true, status: true } },
+  //     },
+  //   });
+  // }
 }

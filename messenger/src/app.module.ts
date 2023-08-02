@@ -9,7 +9,14 @@ import { RoomModul } from './room/room.module';
 import { TestCommandModule } from './test-command/test-command.module';
 
 @Module({
-  imports: [UserModule, MessageModule, AuthModule, PrismaModue, RoomModul, TestCommandModule],
+  imports: [
+    UserModule,
+    MessageModule,
+    AuthModule,
+    PrismaModue,
+    RoomModul,
+    TestCommandModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -41,3 +41,17 @@ model Room{
   User2 User @relation("User2Room",fields: [user2],references: [id])
   user2 Int
 }
+
+// model Item{
+//   id Int @id @default(autoincrement())
+//   content String
+//   likes Like[]
+// }
+
+// model Like{
+//   id Int @id @default(autoincrement())
+//   itemId Int
+//   item Item @relation(fields: [itemId], references: [id])
+//   userId Int
+//   status String
+// }

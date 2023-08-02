@@ -1,7 +1,10 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { RoomService } from './room.service';
 import { RoomDto } from './dto';
-import { CustomParseIntPipe } from 'src/CustomPipe/ParseIdPipe';
+import {
+  CustomParseIntPipe,
+  CustomParseIntRoom,
+} from 'src/CustomPipe/ParseIdPipe';
 
 @Controller('rooms')
 export class RoomController {
@@ -15,6 +18,11 @@ export class RoomController {
   @Delete(':id')
   deleteRoom(@Param('id', CustomParseIntPipe) id: number) {
     return this.roomService.deleteRoom(id);
+  }
+
+  @Get(':id/chat')
+  chat(@Param('id', CustomParseIntRoom) id: number) {
+    return this.roomService.test(id);
   }
 
   @Get('allmessage/:id')

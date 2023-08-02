@@ -20,8 +20,9 @@ export class CustomParseIntPipe implements PipeTransform<string, number> {
 @Injectable()
 export class CustomParseIntRoom implements PipeTransform<string, number> {
   transform(value: string, metadata: ArgumentMetadata): number {
-    console.log('type in parse:', typeof value);
+    // console.log('type in parse:', typeof value);
     // console.log('metadata:', metadata);
+    if (!value) throw new BadRequestException('Empty ID');
     const id = parseInt(value, 10);
     // console.log('Pipe: id:', id);
     // console.log(!id);
