@@ -29,4 +29,9 @@ export class RoomController {
   test(@Param('id', CustomParseIntPipe) id: number) {
     return this.roomService.test(id);
   }
+
+  @Get('testInject')
+  testInject() {
+    return 'hello';
+  }
 }
