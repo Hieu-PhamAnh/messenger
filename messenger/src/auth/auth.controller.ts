@@ -10,6 +10,7 @@ import {
 import { AuthService } from './auth.service';
 import { AuthDto, CreateUserDto } from './dto';
 import { LocalAuthGuard } from './guard/local.guard';
+import { JwtAccessGuard } from './guard/jwtAccess.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -28,9 +29,15 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @UseGuards(LocalAuthGuard)
-  @Post('loginGuard')
+  @Post('sign-in')
   async localGuard(@Request() req) {
     const user = req.user;
     return user;
+  }
+
+  @UseGuards(JwtAccessGuard)
+  @Post('test-jwt-guard')
+  testJwt(@Request() req) {
+    return req.user;
   }
 }

@@ -76,10 +76,10 @@ export class AuthService {
         },
       });
       if (!user) {
-        return null;
+        throw new NotFoundException('username doesnt match');
       }
       if (password !== user.password) {
-        return null;
+        throw new UnauthorizedException('wrong password');
       }
       const access_token = await this.spawnAccessToken(user.id, user.userName);
       const refresh_token = await this.spawnRefreshToken(
