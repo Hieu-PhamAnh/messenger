@@ -9,6 +9,7 @@ import { AuthDto, CreateUserDto } from './dto';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
@@ -21,7 +22,7 @@ export class AuthService {
   async signUp(dto: CreateUserDto) {
     // console.log(dto);
     try {
-      const newUser = await this.prisma.user.create({
+      const newUser: User = await this.prisma.user.create({
         data: dto,
       });
       delete newUser.password;
@@ -42,7 +43,7 @@ export class AuthService {
   ): Promise<{ access_token: string; refresh_token: string }> {
     console.log(dto);
     try {
-      const user = await this.prisma.user.findFirst({
+      const user: User = await this.prisma.user.findFirst({
         where: {
           userName: dto.userName,
         },
@@ -52,6 +53,33 @@ export class AuthService {
       }
       if (dto.password !== user.password) {
         throw new UnauthorizedException('wrong password');
+      }
+      const access_token = await this.spawnAccessToken(user.id, user.userName);
+      const refresh_token = await this.spawnRefreshToken(
+        user.id,
+        user.userName,
+      );
+      return { access_token, refresh_token };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async testGuard(
+    username: string,
+    password: string,
+  ): Promise<{ access_token: string; refresh_token: string } | null> {
+    try {
+      const user: User = await this.prisma.user.findFirst({
+        where: {
+          userName: username,
+        },
+      });
+      if (!user) {
+        return null;
+      }
+      if (password !== user.password) {
+        return null;
       }
       const access_token = await this.spawnAccessToken(user.id, user.userName);
       const refresh_token = await this.spawnRefreshToken(
