@@ -11,14 +11,11 @@ import { AuthService } from './auth.service';
 import { AuthDto, CreateUserDto } from './dto';
 import { LocalAuthGuard } from './guard/local.guard';
 import { JwtAccessGuard } from './guard/jwtAccess.guard';
-import { TokenService } from 'tokenDB/token.service';
+import { JwtRefreshGuard } from './guard/jwtRefresh.guard';
 
 @Controller('auth')
 export class AuthController {
-  constructor(
-    private authService: AuthService,
-    private tokenService: TokenService,
-  ) {}
+  constructor(private authService: AuthService) {}
 
   @Post('signup')
   signUp(@Body() dto: CreateUserDto) {
@@ -34,7 +31,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(LocalAuthGuard)
   @Post('sign-in')
-  async localGuard(@Request() req) {
+  localGuard(@Request() req) {
     const user = req.user;
     return user;
   }
@@ -46,9 +43,10 @@ export class AuthController {
   }
 
   @Post('test-refresh-token')
-  async testRefresh() {
-    const token = await this.tokenService.storeRefreshToken(1, 'ads');
-    console.log(token);
-    return 'hello';
+  @UseGuards(JwtRefreshGuard)
+  testRefresh(@Request() req) {
+    const user = req.user;
+    // console.log(user);
+    return this.authService.refresh(user.sub, user.username);
   }
 }

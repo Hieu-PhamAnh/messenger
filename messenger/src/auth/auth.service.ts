@@ -10,6 +10,7 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { User } from '@prisma/client';
+import { TokenService } from 'tokenDB/token.service';
 
 @Injectable()
 export class AuthService {
@@ -17,6 +18,7 @@ export class AuthService {
     private prisma: PrismaService,
     private jwt: JwtService,
     private config: ConfigService,
+    private tokenService: TokenService,
   ) {}
 
   async signUp(dto: CreateUserDto) {
@@ -41,7 +43,7 @@ export class AuthService {
   async signIn(
     dto: AuthDto,
   ): Promise<{ access_token: string; refresh_token: string }> {
-    console.log(dto);
+    // console.log(dto);
     try {
       const user: User = await this.prisma.user.findFirst({
         where: {
@@ -59,6 +61,18 @@ export class AuthService {
         user.id,
         user.userName,
       );
+      await this.tokenService.storeRefreshToken(user.id, refresh_token);
+      return { access_token, refresh_token };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async refresh(userId: number, username: string) {
+    try {
+      const access_token = await this.spawnAccessToken(userId, username);
+      const refresh_token = await this.spawnRefreshToken(userId, username);
+      await this.tokenService.storeRefreshToken(userId, refresh_token);
       return { access_token, refresh_token };
     } catch (error) {
       throw error;
