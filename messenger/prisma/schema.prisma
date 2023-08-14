@@ -42,16 +42,10 @@ model Room{
   user2 Int
 }
 
-// model Item{
-//   id Int @id @default(autoincrement())
-//   content String
-//   likes Like[]
-// }
-
-// model Like{
-//   id Int @id @default(autoincrement())
-//   itemId Int
-//   item Item @relation(fields: [itemId], references: [id])
-//   userId Int
-//   status String
-// }
+model RefreshToken{
+  id Int @id @default(autoincrement())
+  userId Int @unique
+  token String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

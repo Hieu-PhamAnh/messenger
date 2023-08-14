@@ -11,10 +11,14 @@ import { AuthService } from './auth.service';
 import { AuthDto, CreateUserDto } from './dto';
 import { LocalAuthGuard } from './guard/local.guard';
 import { JwtAccessGuard } from './guard/jwtAccess.guard';
+import { TokenService } from 'tokenDB/token.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private tokenService: TokenService,
+  ) {}
 
   @Post('signup')
   signUp(@Body() dto: CreateUserDto) {
@@ -39,5 +43,12 @@ export class AuthController {
   @Post('test-jwt-guard')
   testJwt(@Request() req) {
     return req.user;
+  }
+
+  @Post('test-refresh-token')
+  async testRefresh() {
+    const token = await this.tokenService.storeRefreshToken(1, 'ads');
+    console.log(token);
+    return 'hello';
   }
 }
