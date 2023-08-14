@@ -6,12 +6,15 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { EditUserDto, SearchDto } from './dto';
 import { CustomParseIntPipe } from 'src/CustomPipe/ParseIdPipe';
+import { JwtAccessGuard } from 'src/auth/guard/jwtAccess.guard';
 
 @Controller('users')
+@UseGuards(JwtAccessGuard)
 export class UserController {
   constructor(private userService: UserService) {}
 
