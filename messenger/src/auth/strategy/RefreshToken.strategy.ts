@@ -18,6 +18,7 @@ export class JwtRefreshTokenStrategy extends PassportStrategy(
     });
   }
   async validate(req: Request, payload: { sub: number; username: string }) {
+    // console.log(req.headers);
     const auth = req.headers['authorization'];
     const [type, token] = auth?.split(' ') ?? [];
     const check = await this.tokenService.findRefreshToken(token);

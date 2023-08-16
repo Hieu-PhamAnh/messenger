@@ -6,11 +6,14 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { MessageService } from './message.service';
 import { CreateMessageDto, EditMessageDto } from './dto';
 import { CustomParseIntPipe } from 'src/CustomPipe/ParseIdPipe';
+import { JwtAccessGuard } from 'src/auth/guard/jwtAccess.guard';
 
+@UseGuards(JwtAccessGuard)
 @Controller('messages')
 export class MessageController {
   constructor(private messageService: MessageService) {}

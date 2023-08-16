@@ -1,11 +1,21 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { RoomService } from './room.service';
 import { RoomDto } from './dto';
 import {
   CustomParseIntPipe,
   CustomParseIntRoom,
 } from 'src/CustomPipe/ParseIdPipe';
+import { JwtAccessGuard } from 'src/auth/guard/jwtAccess.guard';
 
+@UseGuards(JwtAccessGuard)
 @Controller('rooms')
 export class RoomController {
   constructor(private roomService: RoomService) {}
@@ -28,10 +38,5 @@ export class RoomController {
   @Get('allmessage/:id')
   test(@Param('id', CustomParseIntPipe) id: number) {
     return this.roomService.test(id);
-  }
-
-  @Get('testInject')
-  testInject() {
-    return 'hello';
   }
 }

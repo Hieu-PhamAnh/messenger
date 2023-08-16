@@ -42,6 +42,7 @@ export class AuthController {
     return req.user;
   }
 
+  @HttpCode(HttpStatus.OK)
   @Post('test-refresh-token')
   @UseGuards(JwtRefreshGuard)
   testRefresh(@Request() req) {
