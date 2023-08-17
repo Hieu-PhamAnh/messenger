@@ -16,7 +16,8 @@ export class LoggingInterceptor implements NestInterceptor {
       tap(() => console.log(`Intercept take: ${Date.now() - now}ms`)),
       catchError((error) => {
         console.log(`Error occur, Intercept take: ${Date.now() - now}ms`);
-        return throwError(error);
+        // return throwError(error);
+        return throwError(() => error);
       }),
     );
   }
