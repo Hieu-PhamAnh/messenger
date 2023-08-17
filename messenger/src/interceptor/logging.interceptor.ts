@@ -4,7 +4,7 @@ import {
   Injectable,
   NestInterceptor,
 } from '@nestjs/common';
-import { Observable, tap } from 'rxjs';
+import { Observable, catchError, tap, throwError } from 'rxjs';
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
@@ -12,8 +12,12 @@ export class LoggingInterceptor implements NestInterceptor {
     const req = context.switchToHttp().getRequest();
     console.log(`Intercept: ${req.path}`);
     const now = Date.now();
-    return next
-      .handle()
-      .pipe(tap(() => console.log(`Intercept take: ${Date.now() - now}ms`)));
+    return next.handle().pipe(
+      tap(() => console.log(`Intercept take: ${Date.now() - now}ms`)),
+      catchError((error) => {
+        console.log(`Error occur, Intercept take: ${Date.now() - now}ms`);
+        return throwError(error);
+      }),
+    );
   }
 }
