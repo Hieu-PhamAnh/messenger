@@ -1,21 +1,10 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  UseFilters,
-  UseGuards,
-} from '@nestjs/common';
-import { RoomService } from './room.service';
-import { RoomDto } from './dto';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import {
   CustomParseIntPipe,
   CustomParseIntRoom,
 } from 'src/CustomPipe/ParseIdPipe';
-import { JwtAccessGuard } from 'src/auth/guard/jwtAccess.guard';
-import { HttpExceptionFilter } from 'src/filter/HttpException.filer';
+import { RoomDto } from './dto';
+import { RoomService } from './room.service';
 
 // @UseGuards(JwtAccessGuard)
 @Controller('rooms')

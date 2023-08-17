@@ -1,8 +1,7 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import * as dotev from 'dotenv';
 import { ValidationPipe } from '@nestjs/common';
-import { LoggingInterceptor } from './interceptor/logging.interceptor';
+import { NestFactory } from '@nestjs/core';
+import * as dotev from 'dotenv';
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   dotev.config();
