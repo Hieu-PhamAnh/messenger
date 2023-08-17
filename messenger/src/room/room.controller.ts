@@ -17,7 +17,7 @@ import {
 import { JwtAccessGuard } from 'src/auth/guard/jwtAccess.guard';
 import { HttpExceptionFilter } from 'src/filter/HttpException.filer';
 
-@UseGuards(JwtAccessGuard)
+// @UseGuards(JwtAccessGuard)
 @Controller('rooms')
 export class RoomController {
   constructor(private roomService: RoomService) {}

@@ -13,7 +13,7 @@ import { CreateMessageDto, EditMessageDto } from './dto';
 import { CustomParseIntPipe } from 'src/CustomPipe/ParseIdPipe';
 import { JwtAccessGuard } from 'src/auth/guard/jwtAccess.guard';
 
-@UseGuards(JwtAccessGuard)
+// @UseGuards(JwtAccessGuard)
 @Controller('messages')
 export class MessageController {
   constructor(private messageService: MessageService) {}

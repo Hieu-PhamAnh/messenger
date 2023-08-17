@@ -12,16 +12,19 @@ import { AuthDto, CreateUserDto } from './dto';
 import { LocalAuthGuard } from './guard/local.guard';
 import { JwtAccessGuard } from './guard/jwtAccess.guard';
 import { JwtRefreshGuard } from './guard/jwtRefresh.guard';
+import { Public } from './decorator/public.decorator';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  @Public()
   @Post('signup')
   signUp(@Body() dto: CreateUserDto) {
     return this.authService.signUp(dto);
   }
 
+  @Public()
   @HttpCode(HttpStatus.OK)
   @Post('login')
   signIn(@Body() dto: AuthDto) {
@@ -29,6 +32,7 @@ export class AuthController {
   }
 
   @HttpCode(HttpStatus.OK)
+  @Public()
   @UseGuards(LocalAuthGuard)
   @Post('sign-in')
   localGuard(@Request() req) {
@@ -36,14 +40,15 @@ export class AuthController {
     return user;
   }
 
-  @UseGuards(JwtAccessGuard)
-  @Post('test-jwt-guard')
-  testJwt(@Request() req) {
-    return req.user;
-  }
+  // @UseGuards(JwtAccessGuard)
+  // @Post('test-jwt-guard')
+  // testJwt(@Request() req) {
+  //   return req.user;
+  // }
 
   @HttpCode(HttpStatus.OK)
   @Post('test-refresh-token')
+  @Public()
   @UseGuards(JwtRefreshGuard)
   testRefresh(@Request() req) {
     const user = req.user;

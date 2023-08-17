@@ -14,7 +14,7 @@ import { CustomParseIntPipe } from 'src/CustomPipe/ParseIdPipe';
 import { JwtAccessGuard } from 'src/auth/guard/jwtAccess.guard';
 
 @Controller('users')
-@UseGuards(JwtAccessGuard)
+// @UseGuards(JwtAccessGuard)
 export class UserController {
   constructor(private userService: UserService) {}
 
