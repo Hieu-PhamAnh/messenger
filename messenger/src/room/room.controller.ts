@@ -1,8 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
-import {
-  CustomParseIntPipe,
-  CustomParseIntRoom,
-} from 'src/CustomPipe/ParseIdPipe';
+import { CustomParseIntPipe, CustomParseIntRoom } from 'src/Pipe/ParseIdPipe';
 import { RoomDto } from './dto';
 import { RoomService } from './room.service';
 

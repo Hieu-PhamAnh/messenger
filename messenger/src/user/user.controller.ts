@@ -7,7 +7,7 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { CustomParseIntPipe } from 'src/CustomPipe/ParseIdPipe';
+import { CustomParseIntPipe } from 'src/Pipe/ParseIdPipe';
 import { EditUserDto, SearchDto } from './dto';
 import { UserService } from './user.service';
 
